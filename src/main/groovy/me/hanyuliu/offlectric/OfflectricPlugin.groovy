@@ -22,6 +22,6 @@ class OfflectricPlugin implements Plugin<Project> {
         }
 
         copyTask.group = "offlectric"
-        copyTask.description = "Runs adb devices command"
+        copyTask.description = "Runs Offlectric task"
     }
 }
