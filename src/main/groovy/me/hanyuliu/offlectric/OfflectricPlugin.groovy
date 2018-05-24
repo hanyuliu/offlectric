@@ -13,15 +13,18 @@ class OfflectricPlugin implements Plugin<Project> {
         def copyTask = project.task(type: Copy, 'copyOfflineRobolectricJar') {
             from project.configurations.offlectric
             into "${project.buildDir}/robolectric"
-
-            doLast{
-                project.configurations.offlectric.dependencies.each { dep ->
-                    println "${project.buildDir} ~ ${dep.properties}"
-                }
-            }
         }
 
         copyTask.group = "offlectric"
         copyTask.description = "Runs Offlectric task"
+
+        project.afterEvaluate {
+            project.tasks.each {
+                task ->
+                    if (task.name ==~ /.*[cC]ompile.*/) {
+                        task.dependsOn copyTask
+                    }
+            }
+        }
     }
 }
